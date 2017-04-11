@@ -37,7 +37,7 @@ These steps have been tested on Mountain Lion 10.8.4 with Xcode 4.6.3. It is pro
 - Tap formulas
 
   ```sh
-  brew tap rtridz/homebrew
+  brew tap rtridz/homebrew-rtridz
   ```
 
 **Congratulations!!**
