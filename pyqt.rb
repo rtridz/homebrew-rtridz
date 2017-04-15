@@ -1,8 +1,8 @@
 class Pyqt < Formula
   desc "Python bindings for Qt"
   homepage "https://www.riverbankcomputing.com/software/pyqt/intro"
-  url "http://pkgs.fedoraproject.org/repo/pkgs/PyQt4/PyQt-x11-gpl-4.7.4.tar.gz/88e9f1bc467cccf424d2032e3470982c/PyQt-x11-gpl-4.7.4.tar.gz"
-  sha256 "1900984b9fb830b8e394da338d304fa4555fa4aa0e7bc8774ea2c172eec7f128"
+  url "https://downloads.sf.net/project/pyqt/PyQt4/PyQt-4.11.4/PyQt-mac-gpl-4.11.4.tar.gz"
+  sha256 "f178ba12a814191df8e9f87fb95c11084a0addc827604f1a18a82944225ed918"
 
   option "without-python", "Build without python 2 support"
   depends_on :python3 => :optional
@@ -11,7 +11,7 @@ class Pyqt < Formula
     odie "pyqt: --with-python3 must be specified when using --without-python"
   end
 
-  depends_on "cartr/qt4/qt"
+  depends_on "nejohnson2/sdr/qt"
 
   if build.with? "python3"
     depends_on "sip" => "with-python3"
@@ -21,9 +21,9 @@ class Pyqt < Formula
 
   def install
     # On Mavericks we want to target libc++, this requires a non default qt makespec
-    # if ENV.compiler == :clang && MacOS.version >= :mavericks
-    #   ENV.append "QMAKESPEC", "unsupported/macx-clang-libc++"
-    # end
+    if ENV.compiler == :clang && MacOS.version >= :mavericks
+      ENV.append "QMAKESPEC", "unsupported/macx-clang-libc++"
+    end
 
     Language::Python.each_python(build) do |python, version|
       ENV.append_path "PYTHONPATH", "#{Formula["sip"].opt_lib}/python#{version}/site-packages"
@@ -53,8 +53,7 @@ class Pyqt < Formula
         cp_r(Dir.glob("*"), dir)
         cd dir do
           system python, "configure.py", *args
-          inreplace "pyqtconfig.py", "#{HOMEBREW_CELLAR}/#{Formula["cartr/qt4/qt"].name}/#{Formula["cartr/qt4/qt"].pkg_version}",
-            Formula["cartr/qt4/qt"].opt_prefix
+          inreplace "pyqtconfig.py", Formula["cartr/qt4/qt"].prefix, Formula["cartr/qt4/qt"].opt_prefix
           (lib/"python#{version}/site-packages/PyQt4").install "pyqtconfig.py"
         end
       ensure
@@ -62,11 +61,11 @@ class Pyqt < Formula
       end
 
       # On Mavericks we want to target libc++, this requires a non default qt makespec
-      # if ENV.compiler == :clang && MacOS.version >= :mavericks
-      #   args << "--spec" << "unsupported/macx-clang-libc++"
-      # end
+      if ENV.compiler == :clang && MacOS.version >= :mavericks
+        args << "--spec" << "unsupported/macx-clang-libc++"
+      end
 
-      system python, "configure.py", *args
+      system python, "configure-ng.py", *args
       system "make"
       system "make", "install"
       system "make", "clean" # for when building against multiple Pythons
@@ -87,10 +86,9 @@ class Pyqt < Formula
       system python, "test.py"
     end
   end
-
+  
   bottle do
     root_url "https://dl.bintray.com/cartr/bottle-qt4"
-    rebuild 1
-    sha256 "cea56ddfe0e96dbf87d53aaffbd4a1fda8410646d11721a6555857bc36960e8a" => :sierra
+    sha256 "9a24c78224b0b2c9d1ced22804dd3c01b82f9a35ce0a228aaa9db64c34376ef7" => :sierra
   end
 end
