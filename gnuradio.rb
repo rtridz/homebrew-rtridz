@@ -12,8 +12,8 @@ class Gnuradio < Formula
   depends_on 'pygtk'
   depends_on 'swig'
   depends_on 'cppunit'
-  depends_on 'pyqt'
-  depends_on 'pyqwt'
+  depends_on 'rtridz/rtridz/pyqt'
+  depends_on 'rtridz/rtridz/pyqwt'
 
   def options
     [

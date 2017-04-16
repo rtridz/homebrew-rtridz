@@ -73,10 +73,10 @@ class Qwt < Formula
     EOS
     system ENV.cxx, "test.cpp", "-o", "out",
       "-framework", "qwt", "-framework", "QtCore",
-      "-F#{lib}", "-F#{Formula["qt"].opt_lib}",
+      "-F#{lib}", "-F#{Formula["qt@4"].opt_lib}",
       "-I#{lib}/qwt.framework/Headers",
-      "-I#{Formula["qt"].opt_lib}/QtCore.framework/Headers",
-      "-I#{Formula["qt"].opt_lib}/QtGui.framework/Headers"
+      "-I#{Formula["qt@4"].opt_lib}/QtCore.framework/Headers",
+      "-I#{Formula["qt@4"].opt_lib}/QtGui.framework/Headers"
     system "./out"
   end
 end

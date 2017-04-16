@@ -5,7 +5,7 @@ class Pyqwt < Formula
   sha256 "98a8c7e0c76d07701c11dffb77793b05f071b664a8b520d6e97054a98179e70b"
 
   depends_on :python
-  depends_on "qt"
+  depends_on "qt@4"
   depends_on "qwt"
   depends_on "sip"
   depends_on "rtridz/rtridz/pyqt"
