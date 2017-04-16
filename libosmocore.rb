@@ -2,7 +2,7 @@ require "formula"
 
 class Libosmocore < Formula
   homepage "http://bb.osmocom.org/trac/wiki/libosmocore"
-  head "https://github.com/nejohnson2/libosmocore.git"
+  head "https://github.com/osmocom/libosmocore"
 
   depends_on "libtool" => :build
   depends_on "automake" => :build
